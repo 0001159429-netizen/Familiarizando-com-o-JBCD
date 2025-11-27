@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="openjdk-25">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.jdks" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$USER_HOME$/.jdks" recursive="false" />
+  </library>
+</component>
