@@ -1,49 +1,42 @@
-// =================================================================
-// 3. ALUNODAO.java (Data Access Object)
-// =================================================================
+import java.beans.PropertyEditor;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe de Acesso a Dados (DAO) para a emntidade Aluno.
+ * Classe de Acesso a Dados (DAO) para a entidade Aluno.
  * Implementa todas as operações CRUD (Create, Read, Update, Delete).
  */
-public class AlunoDAO {
+public class ProfessorDAO {
 
     /**
      * CREATE: Insere um novo aluno no BD.
      */
-    public void inserir(Aluno aluno) {
+    public void inserir(Professor professor) {
         // Query SQL usa '?' (placeholders) para segurança (PreparedStatement).
-        String sql = "INSERT INTO alunos (nome, email) VALUES (?, ?)";
+        String sql = "INSERT INTO professores (nome, email, estado, cidade, estado_civil, data_nascimento, salario) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         // try-with-resources: Garante o fechamento automático da Conexão e do PreparedStatement.
         try (Connection conn = Conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Mapeamento do objeto Aluno para a Query SQL (1=nome, 2=email).
-            stmt.setString(1, aluno.getNome());
-            stmt.setString(2, aluno.getEmail());
+            stmt.getInt(1,"id"), // Pega o valor da coluna 'id'
+                    rs.getString("nome"), // Pega o valor da coluna 'nome'
+                    rs.getString("email")
 
-            // Executa a instrução SQL de modificação (INSERT).
             stmt.executeUpdate();
 
-            System.out.println("Aluno inserido com sucesso!");
+            System.out.println("Professor inserido com sucesso!");
 
         } catch (Exception e) {
             System.out.println("Erro ao inserir: " + e.getMessage());
         }
     }
 
-
-    /**
-     * READ ALL: Lista todos os alunos do BD.
-     * @return Lista de objetos Aluno.
-     */
-    public List<Aluno> listar() {
-        List<Aluno> lista = new ArrayList<>();
-        String sql = "SELECT * FROM alunos";
+    //Lista de Professores
+    public List<Professor> listar() {
+        List<Professor> lista = new ArrayList<>();
+        String sql = "SELECT * FROM professor";
 
         try (Connection conn = Conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -52,17 +45,17 @@ public class AlunoDAO {
 
             // Itera sobre cada linha retornada pelo banco de dados.
             while (rs.next()) {
-                // Mapeamento reverso: Converte a linha do BD em um objeto Aluno.
-                Professor p = new Professor(
 
-                    stmt.setString(1, p.getNome());
-                    stmt.setString(2, p.getEstado());
-                    stmt.setString(3, p.getCidade());
-                    stmt.setString(4, p.getEstadoCivil());
-                    stmt.setDouble(5, p.getSalario());
-                    stmt.setString(6, p.getEspecialidade()); // Pega o valor da coluna 'email'
+                Professor p = new Professor(
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("estado"),
+                        rs.getString("cidade"),
+                        rs.getString("estado_civil"),
+                        rs.getDate("data_nascimento"),
+
                 );
-                lista.add(a);
+                lista.add(p);
             }
 
         } catch (Exception e) {
@@ -76,8 +69,8 @@ public class AlunoDAO {
     /**
      * UPDATE: Atualiza os dados de um aluno existente pelo ID.
      */
-    public void atualizar(Aluno aluno) {
-        // A cláusula WHERE id = ? é essencial para garantir a atualização do registro correto.
+    public void atualizar(Professor professor) {
+
         String sql = "UPDATE alunos SET nome = ?, email = ? WHERE id = ?";
 
         try (Connection conn = Conexao.getConnection();
@@ -103,7 +96,7 @@ public class AlunoDAO {
      * DELETE: Remove um registro do BD com base no ID.
      */
     public void deletar(int id) {
-        String sql = "DELETE FROM alunos WHERE id = ?";
+        String sql = "DELETE FROM professor WHERE id = ?";
 
         try (Connection conn = Conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -113,7 +106,7 @@ public class AlunoDAO {
 
             stmt.executeUpdate();
 
-            System.out.println("Aluno deletado!");
+            System.out.println("Professor deletado!");
 
         } catch (Exception e) {
             System.out.println("Erro ao deletar: " + e.getMessage());
