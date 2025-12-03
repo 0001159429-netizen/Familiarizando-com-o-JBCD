@@ -7,6 +7,7 @@ import java.util.List;
  * Classe de Acesso a Dados (DAO) para a entidade Aluno.
  * Implementa todas as operações CRUD (Create, Read, Update, Delete).
  */
+
 public class ProfessorDAO {
 
     /**
@@ -14,15 +15,21 @@ public class ProfessorDAO {
      */
     public void inserir(Professor professor) {
         // Query SQL usa '?' (placeholders) para segurança (PreparedStatement).
-        String sql = "INSERT INTO professores (nome, email, estado, cidade, estado_civil, data_nascimento, salario) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO professores (nome, estado, cidade, estado_civil, data_nascimento, salario, ativo, especialidade, ativo) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         // try-with-resources: Garante o fechamento automático da Conexão e do PreparedStatement.
         try (Connection conn = Conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.getInt(1,"id"), // Pega o valor da coluna 'id'
-                    rs.getString("nome"), // Pega o valor da coluna 'nome'
-                    rs.getString("email")
+            stmt.setString(1, professor.getNome());
+            stmt.setString(2, professor.getEstado());
+            stmt.setString(3, professor.getCidade());
+            stmt.setString(4, professor.getEstado_civil());
+            stmt.setString(5, professor.getEspecialidade());
+            stmt.setBoolean(6, professor.getAtivo());
+            stmt.setDouble(7,professor.getSalario());
+            stmt.setDate(8, professor.getData_nascimento();
 
             stmt.executeUpdate();
 
@@ -46,15 +53,22 @@ public class ProfessorDAO {
             // Itera sobre cada linha retornada pelo banco de dados.
             while (rs.next()) {
 
-                Professor p = new Professor(
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getString("estado"),
-                        rs.getString("cidade"),
-                        rs.getString("estado_civil"),
-                        rs.getDate("data_nascimento"),
+                Professor p = new Professor(); // construtor vazio
 
-                );
+                p.setId(rs.getInt("id"));
+                p.setNome(rs.getString("nome"));
+                p.setEstado(rs.getString("estado"));
+                p.setCidade(rs.getString("cidade"));
+                p.setEstado_civil(rs.getString("estado_civil"));
+                p.setData_nascimento(rs.getDate("data_nascimento"));
+                p.setSalario(rs.getDouble("salario"));
+                p.setEspecialidade(rs.getString("especialidade"));
+                p.setAtivo(rs.getBoolean("ativo"));
+
+                p.setData_cadastro(rs.getTimestamp("data_cadastro"));
+                p.setData_atualizacao(rs.getTimestamp("data_atualizacao"));
+                p.setData_remocao(rs.getTimestamp("data_remocao"));
+
                 lista.add(p);
             }
 

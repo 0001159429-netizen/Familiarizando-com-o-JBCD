@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe de Acesso a Dados (DAO) para a emntidade Aluno.
+ * Classe de Acesso a Dados (DAO) para a entidade Aluno.
  * Implementa todas as operações CRUD (Create, Read, Update, Delete).
  */
 public class AlunoDAO {
@@ -53,14 +53,10 @@ public class AlunoDAO {
             // Itera sobre cada linha retornada pelo banco de dados.
             while (rs.next()) {
                 // Mapeamento reverso: Converte a linha do BD em um objeto Aluno.
-                Professor p = new Professor(
-
-                    stmt.setString(1, p.getNome());
-                    stmt.setString(2, p.getEstado());
-                    stmt.setString(3, p.getCidade());
-                    stmt.setString(4, p.getEstadoCivil());
-                    stmt.setDouble(5, p.getSalario());
-                    stmt.setString(6, p.getEspecialidade()); // Pega o valor da coluna 'email'
+                Aluno a = new Aluno(
+                        rs.getInt("id"), // Pega o valor da coluna 'id'
+                        rs.getString("nome"), // Pega o valor da coluna 'nome'
+                        rs.getString("email") // Pega o valor da coluna 'email'
                 );
                 lista.add(a);
             }
