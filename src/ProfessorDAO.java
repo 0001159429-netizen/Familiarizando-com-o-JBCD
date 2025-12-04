@@ -15,7 +15,7 @@ public class ProfessorDAO {
      */
     public void inserir(Professor professor) {
         // Query SQL usa '?' (placeholders) para segurança (PreparedStatement).
-        String sql = "INSERT INTO professores (nome, estado, cidade, estado_civil, data_nascimento, salario, ativo, especialidade, ativo) " +
+        String sql = "INSERT INTO professores (nome, estado, cidade, email, senha, estado_civil, data_nascimento, salario, ativo, especialidade, ativo) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         // try-with-resources: Garante o fechamento automático da Conexão e do PreparedStatement.
@@ -29,7 +29,9 @@ public class ProfessorDAO {
             stmt.setString(5, professor.getEspecialidade());
             stmt.setBoolean(6, professor.getAtivo());
             stmt.setDouble(7,professor.getSalario());
-            stmt.setDate(8, professor.getData_nascimento();
+            stmt.setDate(8, professor.getData_nascimento());
+            stmt.setString(9, professor.getSenha());
+            stmt.setString( 10, professor.getEmail());
 
             stmt.executeUpdate();
 
@@ -64,6 +66,7 @@ public class ProfessorDAO {
                 p.setSalario(rs.getDouble("salario"));
                 p.setEspecialidade(rs.getString("especialidade"));
                 p.setAtivo(rs.getBoolean("ativo"));
+                p.setAtivo(rs.getString("email"));
 
                 p.setData_cadastro(rs.getTimestamp("data_cadastro"));
                 p.setData_atualizacao(rs.getTimestamp("data_atualizacao"));
@@ -85,21 +88,22 @@ public class ProfessorDAO {
      */
     public void atualizar(Professor professor) {
 
-        String sql = "UPDATE alunos SET nome = ?, email = ? WHERE id = ?";
+        String sql = "UPDATE professor SET nome = ?, email = ? WHERE id = ?";
 
         try (Connection conn = Conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             // 1. Novos valores para Nome e Email.
-            stmt.setString(1, aluno.getNome());
-            stmt.setString(2, aluno.getEmail());
+            stmt.setString(1, professor.getNome());
+            stmt.setString(2, professor.getEmail());
+            stmt.setString(3, professor.getSenha());
 
             // 2. ID do registro a ser atualizado (condição WHERE).
-            stmt.setInt(3, aluno.getId());
+            stmt.setInt(3, professor.getId());
 
             stmt.executeUpdate();
 
-            System.out.println("Aluno atualizado!");
+            System.out.println("Professor atualizado!");
 
         } catch (Exception e) {
             System.out.println("Erro ao atualizar: " + e.getMessage());

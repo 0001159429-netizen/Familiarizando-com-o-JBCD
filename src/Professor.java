@@ -12,12 +12,14 @@ public class Professor {
     private double salario;
     private boolean ativo;
     private String especialidade;
+    private String email;
+    private String senha;
 
     private java.sql.Timestamp data_cadastro;
     private java.sql.Timestamp data_atualizacao;
     private java.sql.Timestamp data_remocao;
 
-    public Professor(String nome, String estado, String cidade, String estado_civil, Date data_nascimento, double salario, boolean ativo, String especialidade){
+    public Professor(String nome, String estado, String cidade, String senha, String email, String estado_civil, Date data_nascimento, double salario, boolean ativo, String especialidade){
         this.nome = nome;
         this.cidade = estado;
         this.estado = estado;
@@ -26,10 +28,12 @@ public class Professor {
         this.salario = salario;
         this.ativo = ativo;
         this.especialidade = especialidade;
+        this.email = email;
+        this.senha = senha;
 
     }
 
-    public Professor( int id, String nome, String estado, String cidade, String estado_civil, Date data_nascimento, double salario, boolean ativo, String especialidade ) {
+    public Professor( int id, String nome, String estado, String cidade, String email, String senha, String estado_civil, Date data_nascimento, double salario, boolean ativo, String especialidade ) {
 
         this.id = id;
         this.nome = nome;
@@ -40,6 +44,8 @@ public class Professor {
         this.salario = salario;
         this.ativo = ativo;
         this.especialidade = especialidade;
+        this.senha = senha;
+        this.email = email;
     }
 
     public int getId(){
@@ -58,6 +64,14 @@ public class Professor {
         return cidade;
     }
 
+    public String getEmail(){
+        return email;
+    }
+
+    public String getSenha(){
+        return senha;
+    }
+
     public String getEstado_civil(){
         return estado_civil;
     }
@@ -74,7 +88,7 @@ public class Professor {
         return salario;
     }
 
-    public Date getData_nascimento() {
+    public java.sql.Date getData_nascimento() {
         return data_nascimento;
     }
 
@@ -104,6 +118,14 @@ public class Professor {
 
     public void setCidade(String cidade){
         this.cidade = cidade;
+    }
+
+    public void setEmail( String email ){
+        this.email = email;
+    }
+
+    public void setSenha( String senha){
+        this.senha = senha;
     }
 
     public void setSalario( double salario){
